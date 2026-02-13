@@ -19,5 +19,6 @@ Pastikan server Anda sudah terinstall:
 1. **Clone Repository (dengan Submodules)**
    Penting untuk menggunakan `--recursive` agar kode backend dan frontend ikut terdownload.
    ```bash
-   git clone --recursive [https://github.com/USERNAME_ANDA/jarchive-infrastructure.git](https://github.com/USERNAME_ANDA/jarchive-infrastructure.git)
+   git clone https://GHP_KEY@github.com/siJarchive/jarchive-infrastructure.git
    cd jarchive-infrastructure
+   docker compose up -d --build
