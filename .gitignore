@@ -1,0 +1,15 @@
+# File Environment (RAHASIA)
+.env
+
+# Folder Uploads (Data User jangan masuk git infrastruktur)
+jarchive-backend/uploads/*
+!jarchive-backend/uploads/.gitkeep
+
+# Folder Node Modules & Build (Jika ada sisa di lokal)
+node_modules/
+dist/
+build/
+.DS_Store
+
+# Log Docker/System
+*.log
