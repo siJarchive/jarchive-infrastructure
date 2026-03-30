@@ -23,7 +23,7 @@ Pastikan server Anda sudah terinstall:
    cd jarchive-infrastructure
 
 2. **Konfigurasi Environment (.env)**
-   Salin file `.env.example` menjadi `.env` di folder `jarchive-infrastructure`. Berkat pembaruan terbaru, seluruh konfigurasi port, kredensial aplikasi, dan keamanan database dipusatkan di file ini. Anda **wajib** menyesuaikan variabel berikut:
+   Salin file `.env.example` menjadi `.env` di folder `jarchive-infrastructure`. Anda wajib menyesuaikan variabel berikut:
    
    * **Jaringan & Port:**
      * `BACKEND_PORT`: Port yang akan terekspos ke luar untuk backend.
