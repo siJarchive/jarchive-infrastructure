@@ -34,6 +34,7 @@ Pastikan server Anda sudah terinstall:
      * `ADMIN_USER` & `ADMIN_PASS`: Kredensial login untuk Guru.
      * `SISWA_USER` & `SISWA_PASS`: Kredensial login untuk Siswa.
    * **Keamanan Database (MongoDB):**
+     * `MONGO_PORT`: Port yang akan digunakan untuk menghubungkan dengan MongoDB.
      * `MONGO_ROOT_USER` & `MONGO_ROOT_PASS`: Kredensial autentikasi untuk mengunci database MongoDB.
      * `MONGO_URI`: Format koneksi backend ke database (wajib memuat username & password root di atas, contoh: `mongodb://root:password123@mongo:27017/jarchive_db?authSource=admin`).
 
