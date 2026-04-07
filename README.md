@@ -17,10 +17,11 @@ Pastikan server Anda sudah terinstall:
 ## Cara Install & Menjalankan (Deployment)
 
 1. **Clone Repository (dengan Submodules)**
-   Penting untuk menggunakan `--recursive` agar kode backend dan frontend ikut terdownload.
    ```bash
-   git clone https://GHP_KEY@github.com/siJarchive/jarchive-infrastructure.git
+   git clone https://github.com/siJarchive/jarchive-infrastructure.git
    cd jarchive-infrastructure
+   git clone https://github.com/siJarchive/jarchive-frontend.git
+   git clone https://github.com/siJarchive/jarchive-backend.git
    ```
 
 2. **Konfigurasi Environment (.env)**
