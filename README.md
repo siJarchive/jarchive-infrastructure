@@ -23,6 +23,10 @@ Pastikan server Anda sudah terinstall:
    git clone https://github.com/siJarchive/jarchive-frontend.git
    git clone https://github.com/siJarchive/jarchive-backend.git
    ```
+   Diperlukan token ghp jika repository private.
+      ```bash
+   git clone https://GHP_TOKEN@github.com/siJarchive/jarchive-example.git
+   ```
 
 2. **Konfigurasi Environment (.env)**
    Salin file `.env.example` menjadi `.env` di folder `jarchive-infrastructure`. 
