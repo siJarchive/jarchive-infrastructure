@@ -21,12 +21,14 @@ Pastikan server Anda sudah terinstall:
    ```bash
    git clone https://GHP_KEY@github.com/siJarchive/jarchive-infrastructure.git
    cd jarchive-infrastructure
+   ```
 
 2. **Konfigurasi Environment (.env)**
    Salin file `.env.example` menjadi `.env` di folder `jarchive-infrastructure`. 
    ```bash
-   cd jarchive-infrastructure
    cp .env.example .env
+   nano .env
+   ```
    
    Anda wajib menyesuaikan variabel berikut:
    
