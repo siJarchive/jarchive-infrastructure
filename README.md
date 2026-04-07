@@ -23,7 +23,12 @@ Pastikan server Anda sudah terinstall:
    cd jarchive-infrastructure
 
 2. **Konfigurasi Environment (.env)**
-   Salin file `.env.example` menjadi `.env` di folder `jarchive-infrastructure`. Anda wajib menyesuaikan variabel berikut:
+   Salin file `.env.example` menjadi `.env` di folder `jarchive-infrastructure`. 
+   ```bash
+   cd jarchive-infrastructure
+   cp .env.example .env
+   
+   Anda wajib menyesuaikan variabel berikut:
    
    * **Jaringan & Port:**
      * `BACKEND_PORT`: Port yang akan terekspos ke luar untuk backend.
