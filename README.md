@@ -1,56 +1,144 @@
-# Jarchive Infrastructure
+<div align="center">
+  <h1>Jarchive Infrastructure</h1>
+  <p>Konfigurasi Infrastruktur sebagai Kode (IaC) berbasis Docker untuk deployment ekosistem platform Jarchive.</p>
+  <p>
+    <a href="https://github.com/siJarchive/jarchive-frontend">Frontend</a> | 
+    <a href="https://github.com/siJarchive/jarchive-backend">Backend</a>
+  </p>
+</div>
 
-Repository ini berisi konfigurasi infrastruktur (Infrastructure as Code) untuk melakukan deployment aplikasi **Jarchive**.
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![Docker Compose](https://img.shields.io/badge/Docker_Compose-2496ED?logo=docker&logoColor=white)
+![Platform](https://img.shields.io/badge/Platform-Linux-lightgrey?logo=linux)
 
-Aplikasi ini terdiri dari:
-- **Frontend:** React + Vite
-- **Backend:** Node.js + Express
-- **Database:** MongoDB
+## Fitur
+
+| Fitur | Deskripsi |
+| --- | --- |
+| Multi-container Deployment | Mengorkestrasi Frontend, Backend, dan Database MongoDB secara terpusat. |
+| Environment Isolation | Memisahkan konfigurasi jaringan, kredensial, dan port eksternal melalui variabel lingkungan. |
+| Data Persistence | Mengamankan data base dan file unggahan pengguna (assets) melalui *Docker Volumes*. |
+
+## Konsep dan Arsitektur
+
+```text
++-------------------------------------------------------------------+
+|                         Host Environment                          |
+|                                                                   |
+|   +-----------------------+           +-----------------------+   |
+|   |                       |           |                       |   |
+|   |  jarchive-frontend    | <--HTTP-- |  jarchive-backend     |   |
+|   |  (React/Nginx)        |           |  (Node.js/Express)    |   |
+|   |                       |           |                       |   |
+|   |  Port Eksternal:      |           |  Port Eksternal:      |   |
+|   |  [FRONTEND_PORT]      |           |  [BACKEND_PORT]       |   |
+|   +-----------------------+           +-----------------------+   |
+|                                                   |               |
+|                                                  TCP              |
+|                                                   |               |
+|                                       +-----------------------+   |
+|                                       |                       |   |
+|                                       |  jarchive-mongodb     |   |
+|                                       |  (MongoDB)            |   |
+|                                       |                       |   |
+|                                       |  Port Eksternal:      |   |
+|                                       |  [MONGO_PORT]         |   |
+|                                       +-----------------------+   |
++-------------------------------------------------------------------+
+
+```
 
 ## Prasyarat
 
-Pastikan server Anda sudah terinstall:
-- [Docker](https://docs.docker.com/get-docker/)
-- [Docker Compose](https://docs.docker.com/compose/install/)
-- Git
+| Komponen | Spesifikasi / Versi | Keterangan |
+| --- | --- | --- |
+| OS | Linux / macOS / Windows (WSL2) | Diuji secara optimal pada lingkungan Unix |
+| Docker | Engine 20.10+ | Diperlukan untuk runtime container |
+| Docker Compose | V2+ | Diperlukan untuk orkestrasi arsitektur |
+| Git | Versi CLI Terbaru | Diperlukan untuk kloning *source code* submodul |
 
-## Cara Install & Menjalankan (Deployment)
+## Instalasi
 
-1. **Clone Repository (dengan Submodules)**
-   ```bash
-   git clone https://github.com/siJarchive/jarchive-infrastructure.git
-   cd jarchive-infrastructure
-   git clone https://github.com/siJarchive/jarchive-frontend.git
-   git clone https://github.com/siJarchive/jarchive-backend.git
-   ```
-   Diperlukan token ghp jika repository private.
-      ```bash
-   git clone https://GHP_TOKEN@github.com/siJarchive/jarchive-example.git
-   ```
+1. Kloning repositori infrastruktur beserta repositori dependennya:
 
-2. **Konfigurasi Environment (.env)**
-   Salin file `.env.example` menjadi `.env` di folder `jarchive-infrastructure`. 
-   ```bash
-   cp .env.example .env
-   nano .env
-   ```
-   
-   Anda wajib menyesuaikan variabel berikut:
-   
-   * **Jaringan & Port:**
-     * `BACKEND_PORT`: Port yang akan terekspos ke luar untuk backend.
-     * `FRONTEND_PORT`: Port web untuk mengakses frontend.
-     * `VITE_API_URL`: Isi dengan IP server/komputer beserta port backend agar frontend dapat berkomunikasi dengan API.
-   * **Keamanan Aplikasi:**
-     * `JWT_SECRET`: Ganti dengan string acak untuk keamanan token login.
-     * `ADMIN_USER` & `ADMIN_PASS`: Kredensial login untuk Guru.
-     * `SISWA_USER` & `SISWA_PASS`: Kredensial login untuk Siswa.
-   * **Keamanan Database (MongoDB):**
-     * `MONGO_PORT`: Port yang akan digunakan untuk menghubungkan dengan MongoDB.
-     * `MONGO_ROOT_USER` & `MONGO_ROOT_PASS`: Kredensial autentikasi untuk mengunci database MongoDB.
-     * `MONGO_URI`: Format koneksi backend ke database (wajib memuat username & password root di atas, contoh: `mongodb://root:password123@mongo:27017/jarchive_db?authSource=admin`).
+```bash
+git clone [https://github.com/siJarchive/jarchive-infrastructure.git](https://github.com/siJarchive/jarchive-infrastructure.git)
+cd jarchive-infrastructure
 
-3. **Jalankan Container**
-   Setelah `.env` disesuaikan, jalankan perintah berikut di terminal:
-   ```bash
-   docker compose up -d --build
+git clone [https://github.com/siJarchive/jarchive-frontend.git](https://github.com/siJarchive/jarchive-frontend.git)
+git clone [https://github.com/siJarchive/jarchive-backend.git](https://github.com/siJarchive/jarchive-backend.git)
+
+```
+
+*Jika repositori bersifat private, otentikasi menggunakan token GHP:*
+
+```bash
+git clone https://[GHP_TOKEN]@[github.com/siJarchive/jarchive-frontend.git](https://github.com/siJarchive/jarchive-frontend.git)
+
+```
+
+## Konfigurasi
+
+Persiapkan parameter environment sebelum mengeksekusi container. Salin *template* yang telah disediakan:
+
+```bash
+cp .env.example .env
+
+```
+
+Sesuaikan nilai di dalam `.env` sesuai kebutuhan.
+
+| Variabel Lingkungan | Status | Default | Deskripsi |
+| --- | --- | --- | --- |
+| `BACKEND_PORT` | Wajib | 5000 | Port host yang dipetakan ke layanan API backend. |
+| `FRONTEND_PORT` | Wajib | 11223 | Port host yang dipetakan ke layanan web antarmuka. |
+| `VITE_API_URL` | Wajib | - | Endpoint absolut API backend (contoh: `http://192.168.1.10:5000`). |
+| `JWT_SECRET` | Wajib | - | Kunci enkripsi statis untuk validasi autentikasi JWT. |
+| `ADMIN_USER` | Wajib | - | Identitas login untuk peran otorisasi `Guru`. |
+| `ADMIN_PASS` | Wajib | - | Kredensial login untuk peran otorisasi `Guru`. |
+| `SISWA_USER` | Wajib | - | Identitas login untuk peran otorisasi `Siswa`. |
+| `SISWA_PASS` | Wajib | - | Kredensial login untuk peran otorisasi `Siswa`. |
+| `MONGO_PORT` | Wajib | 27017 | Port host yang dipetakan ke layanan database MongoDB. |
+| `MONGO_ROOT_USER` | Wajib | - | Username untuk otentikasi administrator di MongoDB. |
+| `MONGO_ROOT_PASS` | Wajib | - | Password untuk otentikasi administrator di MongoDB. |
+| `MONGO_URI` | Wajib | - | String koneksi yang mengarah ke internal container, sertakan autentikasi root. |
+
+## Manajemen dan Operasional
+
+Menjalankan infrastruktur dalam mode *detached*:
+
+```bash
+docker compose up -d
+
+```
+
+Menghentikan seluruh container terkait tanpa merusak persistensi data (*volume*):
+
+```bash
+docker compose stop
+
+```
+
+Melakukan pemantauan log secara *realtime* untuk seluruh container:
+
+```bash
+docker compose logs -f
+
+```
+
+Mengecek status dan pemetaan port layanan yang aktif:
+
+```bash
+docker compose ps
+
+```
+
+## Uninstal
+
+Menghapus seluruh container, *network*, dan me-reset sistem ke awal.
+*Peringatan: Perintah ini menghapus volume secara permanen (menghilangkan file upload dan database).*
+
+```bash
+docker compose down -v
+
+```
